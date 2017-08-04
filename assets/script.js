@@ -1,4 +1,4 @@
-var timeLeft = 30
+var timeLeft = 28
 
 var timeLeftInterval
 
@@ -63,7 +63,7 @@ var showQuestion = function() {
 }
 
 
-timerInterval = setInterval(showQuestion, 10000)
+timerInterval = setInterval(showQuestion, 7000)
 
 var winCount = function() {
     correctAnswers++

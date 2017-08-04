@@ -8,8 +8,8 @@ var correctAnswers = 0
 
 var wrongAnswers = 0
 
-var newGame = function(){
-	location.reload()
+var newGame = function() {
+    location.reload()
 }
 
 var questionsArray = [{
@@ -29,7 +29,7 @@ var questionsArray = [{
     {
         question: "Why was the Space Needle built?",
         answer1: "For an office building",
-        answer2:"As a tourist attraction",
+        answer2: "As a tourist attraction",
         answer3: "For a movie"
     },
 
@@ -42,12 +42,14 @@ var questionsArray = [{
 ]
 
 var timer = function() {
-    $("#timeRemaining").html(timeLeft)
         timeLeft--
+        $("#timeRemaining").html(timeLeft)
+    if (timeLeft === 0) {
+        timeOut()
     }
+}
 
 timeLeftInterval = setInterval(timer, 1000)
-
 
 var winCount = function() {
     correctAnswers++
@@ -59,21 +61,24 @@ var lossCount = function() {
     showQuestion()
 }
 
-$("#answer2").click(winCount)
-$("#answer1").click(lossCount)
-$("#answer3").click(lossCount)
-
+var timeOut = function() {
+    clearInterval(timeLeftInterval)
+    alert("Game Over!")
+    $("#question").html("Correct Answers: " + correctAnswers + "<br>Wrong Answers: " + wrongAnswers)
+    $("#restart").html("<p>Click Here to Play Again!</p>")
+    $("#answers").empty()
+    $("#timeLeft").empty()
+}
 
 var showQuestion = function() {
-    if (questionIndex == 4 || timeLeft == 0) {
+    if (questionIndex === 4) {
         clearInterval(timeLeftInterval)
         alert("Game Over!")
         $("#question").html("Correct Answers: " + correctAnswers + "<br>Wrong Answers: " + wrongAnswers)
         $("#restart").html("<p>Click Here to Play Again!</p>")
         $("#answers").empty()
-        $("#timeLeft").empty()	
-    } 
-    else {
+        $("#timeLeft").empty()
+    } else {
         $("#question").html(questionsArray[questionIndex].question)
         $("#answer1").html(questionsArray[questionIndex].answer1)
         $("#answer2").html(questionsArray[questionIndex].answer2)
@@ -81,6 +86,12 @@ var showQuestion = function() {
         questionIndex++
     }
 }
+
+
+
+$("#answer2").click(winCount)
+$("#answer1").click(lossCount)
+$("#answer3").click(lossCount)
 
 showQuestion()
 timer()

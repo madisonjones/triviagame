@@ -1,8 +1,6 @@
-var timeLeft = 28
+var timeLeft = 30
 
 var timeLeftInterval
-
-var timerInterval
 
 var questionIndex = 0
 
@@ -43,27 +41,13 @@ var questionsArray = [{
     }
 ]
 
-var showQuestion = function() {
-    if (questionIndex == 4) {
-        clearInterval(timerInterval)
-        clearInterval(timeLeftInterval)
-        alert("Game Over!")
-        $("#question").html("Correct Answers: " + correctAnswers + "<br>Wrong Answers: " + wrongAnswers)
-        $("#restart").html("<p>Click Here to Play Again!</p>")
-        $("#answers").empty()
-        $("#timeLeft").empty()
-		
-    } else {
-        $("#question").html(questionsArray[questionIndex].question)
-        $("#answer1").html(questionsArray[questionIndex].answer1)
-        $("#answer2").html(questionsArray[questionIndex].answer2)
-        $("#answer3").html(questionsArray[questionIndex].answer3)
-        questionIndex++
+var timer = function() {
+    $("#timeRemaining").html(timeLeft)
+        timeLeft--
     }
-}
 
+timeLeftInterval = setInterval(timer, 1000)
 
-timerInterval = setInterval(showQuestion, 7000)
 
 var winCount = function() {
     correctAnswers++
@@ -79,12 +63,24 @@ $("#answer2").click(winCount)
 $("#answer1").click(lossCount)
 $("#answer3").click(lossCount)
 
-function timer() {
-    $("#timeRemaining").html(timeLeft)
-        timeLeft--
-    }
 
-timeLeftInterval = setInterval(timer, 1000)
+var showQuestion = function() {
+    if (questionIndex == 4 || timeLeft == 0) {
+        clearInterval(timeLeftInterval)
+        alert("Game Over!")
+        $("#question").html("Correct Answers: " + correctAnswers + "<br>Wrong Answers: " + wrongAnswers)
+        $("#restart").html("<p>Click Here to Play Again!</p>")
+        $("#answers").empty()
+        $("#timeLeft").empty()	
+    } 
+    else {
+        $("#question").html(questionsArray[questionIndex].question)
+        $("#answer1").html(questionsArray[questionIndex].answer1)
+        $("#answer2").html(questionsArray[questionIndex].answer2)
+        $("#answer3").html(questionsArray[questionIndex].answer3)
+        questionIndex++
+    }
+}
 
 showQuestion()
 timer()
